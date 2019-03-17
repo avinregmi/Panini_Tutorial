@@ -1,13 +1,15 @@
-#predict.py
+# 1. import everything needed 
+import torch
+from torch import nn
+from torch import optim
+import torch.nn.functional as F
+from torchvision import datasets, transforms, models
+import PIL.Image
+import io
 
-def load(path):
-    # 1. import everything needed 
-    import torch
-    from torch import nn
-    from torch import optim
-    import torch.nn.functional as F
-    from torchvision import datasets, transforms, models
-    
+
+
+def load():
     # 2. defie model architecture
     model = models.densenet121(pretrained=True)
 
@@ -15,7 +17,6 @@ def load(path):
     for param in model.parameters():
         param.requires_grad = False
 
-    from collections import OrderedDict
     model.classifier = nn.Sequential(nn.Linear(1024, 256),
                                  nn.ReLU(),
                                  nn.Dropout(0.2),
@@ -23,26 +24,14 @@ def load(path):
                                  nn.LogSoftmax(dim=1))
     
     # 3. load weights
-    model.classifier.load_state_dict(torch.load(path,map_location='cpu'))
+    model.classifier.load_state_dict(torch.load("last_layers.pth",map_location='cpu'))
     
     # 4. return weights loaded model
     return model
     
 
     
-def predict(model,input_image_client):
-    # 1. import everything needed again.
-    import torch
-    from torch import nn
-    from torch import optim
-    import torch.nn.functional as F
-    from torchvision import datasets, transforms, models
-    
-    import PIL.Image
-    import io
-
-    from torchvision import transforms
-    
+def predict(input_image_client):
     # 2. define preprocess for the input
     preprocess = transforms.Compose([transforms.Resize(255),
                                       transforms.CenterCrop(224),
@@ -57,7 +46,7 @@ def predict(model,input_image_client):
         img_tensor = img_tensor.view(1,3,224,-1)
 
     return_label = ""
-
+    model = load()
     # 4.  We perform a forward pass image tensor into our model
     with torch.no_grad():
         model.eval()
