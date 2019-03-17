@@ -26,7 +26,13 @@ Returns:
 - Predicted value which has to be a double array of list.
 
 Ie. return_value = my_model(input_from_client)
+   
     return [[return_value]]
+
+#### Template for main.py
+
+
+
 
 
 ## What is requirements.txt ?
@@ -36,8 +42,41 @@ Look into this link for more info. https://pip.pypa.io/en/stable/reference/pip_i
 
 ## Specifying model input type?
 
+When uploading your model, you have to specify input type the model is expecting. If your model is an image classifier and is expecting an image, you will use "bytes" since the image with be encoded as base64 bytes
+
+- ints: Model expecting integer as input
+- double: Model expecting double as input
+- floats: Model expecting floats as input
+- bytes: Model expecting bytes as input. Ie. Image classification models
+- strings: Model expecting strings as input. Ie. text classification and NLP models
 
 ## How to use API to make predictions? 
+
+As long as you can make a POST request, you can use panini. We are platfrom agnostic when it comes to infering your model.
+
+Here is a snippet of using Python to make prediction. 
+
+''' Python
+#How to infer using Python.
+import json
+import requests
+import base64
+
+API_LINK = "" #Your API URL goes here
+
+data_to_send = [] #Data you want to send for prediction goes here
+response = requests.post(
+     API_LINK,
+     headers={"Content-type": "application/json"},
+     data=json.dumps({
+         'input': data_to_send,
+     }))
+result = response.json()
+print(result) #Prediction response
+
+'''
+
+
 
 
 
