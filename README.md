@@ -56,7 +56,7 @@ As long as you can make a POST request, you can use panini. We are platfrom agno
 
 Here is a snippet of using Python to make prediction. 
 
-''' Python
+''' python
 #How to infer using Python.
 import json
 import requests
