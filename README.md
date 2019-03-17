@@ -10,12 +10,12 @@ To get started, you need to upload three files.
 
 - requirements.txt
 - main.py
-- Your saved model file. It could be named anything and the valied extensions are .plk or .pth
-- (Optional) You can also upload addiotioanl python .py classes or helper files such as .csv .txt files. 
+- Your saved model file. It could be named anything and the valid extensions are .pkl or .pth
+- (Optional) You can also upload additional python .py files or helper files such as .csv .txt 
 
 ## What is main.py? 
 
-main.py is the first python file that gets executed in the container. It needs to have a function called             predict inside the main.py which gets executed when you call your API to make predictions. It also takes a single argument which is the data send for prediction. Forward pass of the data will be performed here and the return value from predict function will be send back to the user. 
+main.py is the first python file that gets executed in the container. It needs to have a function called             predict inside of it which gets executed when you call your API to make predictions. It also takes a single argument which is the data send for prediction. Forward pass of the data will be performed here and the return value from predict function will be send back to the user. 
 
 predict(input_from_client):
 
@@ -25,13 +25,49 @@ Arguments:
 Returns:
 - Predicted value which has to be a double array of list.
 
-Ie. return_value = my_model(input_from_client)
+Ie. 
+return_value = my_model(input_from_client)
    
-    return [[return_value]]
+return [[return_value]]
 
 #### Template for main.py
+```python
+#main.py
 
+#imports. Make sure sklearn and numpy is in requirements.txt file
+from sklearn import linear_model
+from numpy import array
 
+def predict(input_from_client):
+
+    #Load my saved model
+    model = load("model.pkl")
+
+    #Do the prediction
+    prediction = model.predict(input_from_client)
+    value = []
+    for label in prediction:
+        if label == 0:
+            value.append('Setosa')
+        elif label == 1:
+            value.append('Virginica')
+        else:
+            value.append('Versicolour')
+    
+    #Return the predicted value back to the user.
+    return value
+
+#You can have more helper methods and classes if you want. 
+def blah(...):
+  pass
+
+def blah2(...):
+  pass
+
+def load(..):
+  pass
+
+```
 
 
 
@@ -54,16 +90,14 @@ When uploading your model, you have to specify input type the model is expecting
 
 As long as you can make a POST request, you can use panini. We are platfrom agnostic when it comes to infering your model.
 
-Here is a snippet of using Python to make prediction. 
+Here is a snippet on using Python to make prediction. 
 
-'''python
-#How to infer using Python.
+ 
+```python
 import json
 import requests
 import base64
-
 API_LINK = "" #Your API URL goes here
-
 data_to_send = [] #Data you want to send for prediction goes here
 response = requests.post(
      API_LINK,
@@ -73,7 +107,7 @@ response = requests.post(
      }))
 result = response.json()
 print(result) #Prediction response
-'''
+```
 
 
 
