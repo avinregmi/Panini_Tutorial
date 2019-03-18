@@ -34,16 +34,16 @@ return [[return_value]]
 ```python
 #main.py
 
-#imports. Make sure sklearn and numpy is in requirements.txt file
+# 1. imports. Make sure sklearn and numpy is in requirements.txt file
 from sklearn import linear_model
 from numpy import array
 
 def predict(input_from_client):
 
-    #Load my saved model
+    #2. Load my saved model
     model = load("model.pkl")
 
-    #Do the prediction
+    #3. Do the prediction
     prediction = model.predict(input_from_client)
     value = []
     for label in prediction:
@@ -54,7 +54,7 @@ def predict(input_from_client):
         else:
             value.append('Versicolour')
     
-    #Return the predicted value back to the user.
+    # 4. Return the predicted value back to the user.
     return value
 
 #You can have more helper methods and classes if you want. 
@@ -64,8 +64,7 @@ def blah(...):
 def blah2(...):
   pass
 
-def load(..):
-  pass
+
 
 ```
 

@@ -1,7 +1,8 @@
 from sklearn import linear_model
 from numpy import array
-def load(path):
-    import pickle
+import pickle
+
+def load_my_model(path):
     infile = open(path,'rb')
     model = pickle.load(infile)
     infile.close()
@@ -9,7 +10,7 @@ def load(path):
 
 
 def predict(input_from_client):
-    model = load("model.pkl")
+    model = load_my_model("model.pkl")
     prediction = model.predict(input_from_client)
     value = []
     for label in prediction:

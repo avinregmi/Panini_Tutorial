@@ -9,7 +9,7 @@ import io
 
 
 
-def load():
+def load_my_model():
     # 2. defie model architecture
     model = models.densenet121(pretrained=True)
 
@@ -46,7 +46,7 @@ def predict(input_image_client):
         img_tensor = img_tensor.view(1,3,224,-1)
 
     return_label = ""
-    model = load()
+    model = load_my_model()
     # 4.  We perform a forward pass image tensor into our model
     with torch.no_grad():
         model.eval()
